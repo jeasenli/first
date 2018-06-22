@@ -1,0 +1,25 @@
+Sub 批量分列()
+On Error Resume Next
+Application.ScreenUpdating = False
+active.thisworkbook.sheets.refresh.all
+For k = 5 To Sheets.Count
+Sheets(k).Select
+Rows("2:2").Select
+    Selection.Copy
+    Rows("1:1").Select
+    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
+        :=False, Transpose:=False
+    Range("A1").Select
+    Application.CutCopyMode = False
+    ActiveCell.FormulaR1C1 = "年月"
+Dim i%, j%
+  j = ActiveSheet.UsedRange.Columns.Count
+  For i = 3 To j
+    Columns(i).Select
+    Selection.TextToColumns Destination:=Columns(i), DataType:=xlDelimited, _
+        TextQualifier:=xlDoubleQuote, ConsecutiveDelimiter:=False, Tab:=True, _
+        Semicolon:=False, Comma:=False, Space:=False, Other:=False, FieldInfo _
+        :=Array(1, 1), TrailingMinusNumbers:=True
+  Next
+  Next
+End Sub
